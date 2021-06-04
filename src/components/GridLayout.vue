@@ -7,6 +7,9 @@
     @click="getPositionGrid($event)"
   >
     <grid-item v-for="item in itens" :key="item.i" :item="item" />
+    <q-card flat class="absolute-bottom-right bg-dark text-white q-px-sm">{{
+      itens.length
+    }}</q-card>
   </div>
 </template>
 
@@ -52,14 +55,20 @@ export default {
         y: position.y,
         w: 1,
         h: 1,
+        url: "https://placeimg.com/500/300/nature",
       };
-      if (check) {
-        this.addGridItem(el);
-      }
+      if (check) this.addGridItem(el);
     },
     async addGridItem(el) {
+      console.log("ADD GRID");
       await this.itens.push(el);
-      this.grid.makeWidget(`#${el.id}`);
+      await this.grid.makeWidget(`#${el.id}`);
+    },
+    async removeGridItem(el, removeGrid) {
+      console.log("REMOVE GRID");
+      let item = this.itens.find((item) => item.id == el.id);
+      if (item) this.itens.splice(this.itens.indexOf(item));
+      if (removeGrid) this.grid.removeWidget(el);
     },
   },
   computed: {

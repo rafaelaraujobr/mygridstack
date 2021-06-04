@@ -9,7 +9,9 @@
     :gs-min-w="item.minW || 1"
     :gs-min-h="item.minH || 1"
   >
-    <q-card flat bordered class="fit bg-primary">{{ item.id }}</q-card>
+    <q-card flat bordered class="fit bg-primary">
+      <q-img :src="item.url" spinner-color="white" class="fit"> </q-img>
+    </q-card>
   </div>
 </template>
 
