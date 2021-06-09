@@ -9,17 +9,49 @@
     :gs-min-w="item.minW || 1"
     :gs-min-h="item.minH || 1"
   >
-    <q-card flat bordered class="fit bg-primary">
-      <q-img :src="item.url" spinner-color="white" class="fit"> </q-img>
+    <q-card flat bordered class="fit bg-grey-2">
+      <q-resize-observer @resize="onResize" />
+      <q-toolbar
+        class="q-pl-sm q-pr-none"
+        style="min-height: 30px"
+        v-if="header"
+      >
+        <q-toolbar-title> {{ item.title }} </q-toolbar-title>
+        <q-btn flat dense icon="mdi-close" @click="$emit('remove', item)" />
+      </q-toolbar>
+      <q-separator />
+      <q-img
+        :src="item.extras.url"
+        spinner-color="white"
+        v-if="item.extras"
+        :style="`height: ${header ? size.height - 32 : size.height}px;`"
+      />
     </q-card>
   </div>
 </template>
 
 <script>
+import GridStackService from "@/mixins/GridStackService";
 export default {
   name: "GridItem",
+  mixins: [GridStackService],
   props: {
     item: Object,
+    grid: Object,
+  },
+  data() {
+    return {
+      header: true,
+      size: {
+        height: 200,
+        width: 200,
+      },
+    };
+  },
+  methods: {
+    onResize(size) {
+      this.size = size;
+    },
   },
 };
 </script>
