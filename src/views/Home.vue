@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page>
     <q-resize-observer @resize="onResize" />
     <display :size="size" />
   </q-page>

@@ -20,12 +20,7 @@
         <q-btn flat dense icon="mdi-close" @click="$emit('remove', item)" />
       </q-toolbar>
       <q-separator />
-      <q-img
-        :src="item.extras.url"
-        spinner-color="white"
-        v-if="item.extras"
-        :style="`height: ${header ? size.height - 32 : size.height}px;`"
-      />
+      <div class="text-caption">{{ item.id }}</div>
     </q-card>
   </div>
 </template>

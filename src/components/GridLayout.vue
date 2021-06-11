@@ -20,7 +20,7 @@
     <q-card flat class="absolute-bottom-right bg-grey text-white q-px-sm">
       Qtd:{{ layout.grid.length }}
     </q-card>
-    <q-dialog v-model="dialog">
+    <!-- <q-dialog v-model="dialog">
       <q-card
         class="absolute"
         :style="`min-width: ${layout.size.width}px; left:${positionDialog.left}px !important`"
@@ -29,18 +29,11 @@
           <div class="text-h6">Alert</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-          repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
-          perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-          minima, porro labore.
-        </q-card-section>
-
         <q-card-actions align="right">
           <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
   </div>
 </template>
 <script>
@@ -88,7 +81,7 @@ export default {
         w: 1,
         h: 1,
         grid_id: this.layout.id,
-        title: "new",
+        title: `${this.layout.grid.length}`,
         extras: { url: "https://placeimg.com/500/300/nature" },
       };
       if (check) this.addGridItem(el, true);
@@ -98,11 +91,11 @@ export default {
       await this.ActionAddGridItem(el);
       if (eventGrid) await this.grid.makeWidget(document.getElementById(el.id));
     },
-    async removeGridItem(el, eventGrid) {
+    async removeGridItem(el) {
       console.log("REMOVE GRID");
       await this.ActionRemoveGridItem(el);
-      if (eventGrid)
-        await this.grid.removeWidget(document.getElementById(el.id));
+      // if (eventGrid)
+      //   await this.grid.removeWidget(document.getElementById(el.id));
     },
 
     getGridItem(id) {
@@ -117,28 +110,15 @@ export default {
 
     listenEventGrid() {
       //troca de display
-      this.grid.on("dropped", (event, previousWidget, newWidget) => {
-        console.log("CHANGE DISPLAY");
-        let gridItemSelect = this.getGridItem(previousWidget.el.id);
-        this.removeGridItem(
-          {
-            grid_id: gridItemSelect.grid_id,
-            id: previousWidget.el.id,
-          },
-          true
-        );
-        this.addGridItem(
-          {
-            grid_id: this.layout.id,
-            id: newWidget.el.id,
-            title: gridItemSelect.title,
-            extras: gridItemSelect.extras,
-            ...newWidget,
-          },
-          true
-        );
-      });
+      this.grid.on("dropped", this.changeItemGrid);
 
+      this.grid.on("removed", (event, items) => {
+        items.forEach((item) => {
+          let el = this.getGridItem(item.el.id);
+          console.log(el);
+          //  this.ActionRemoveGridItem(el);
+        });
+      });
       // this.grid.on("change", (event, itens) => {
       //   console.log("change ===>", event, itens);
       //   console.log(this.grid.cellWidth());
@@ -159,6 +139,24 @@ export default {
       // this.grid.on("resizestop", (event, item) => {
       //   console.log("resizestop ===>", event, item);
       // });
+    },
+    async changeItemGrid(event, previousWidget, newWidget) {
+      console.log("CHANGE DISPLAY");
+      let gridItemSelect = await this.getGridItem(previousWidget.el.id);
+      await this.grid.removeWidget(document.getElementById(newWidget.el.id));
+      await this.addGridItem(
+        {
+          grid_id: this.layout.id,
+          id: newWidget.el.id,
+          title: gridItemSelect.title,
+          extras: gridItemSelect.extras,
+          w: newWidget.w,
+          h: newWidget.h,
+          x: newWidget.x,
+          y: newWidget.y,
+        },
+        true
+      );
     },
   },
   computed: {
@@ -194,10 +192,10 @@ export default {
         }`,
         backgroundSize: `calc(100% / ${this.layout.col}) calc(100% / ${this.layout.row}`,
         backgroundImage: `
-        linear-gradient(90deg,#e0e0e069, transparent 1px),
-        linear-gradient(90deg, transparent calc(100% - 1px), #e0e0e069),
-        linear-gradient( #e0e0e069, transparent 1px),
-        linear-gradient(transparent calc(100% - 1px),#e0e0e069 100%)`,
+        linear-gradient(90deg,#e0e0e0, transparent 1px),
+        linear-gradient(90deg, transparent calc(100% - 1px), #e0e0e0),
+        linear-gradient( #e0e0e0, transparent 1px),
+        linear-gradient(transparent calc(100% - 1px),#e0e0e0 100%)`,
         backgroundPosition: `0 0`,
         backgroundColor: `${this.layout.bgGrid}`,
       };

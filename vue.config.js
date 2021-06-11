@@ -1,8 +1,10 @@
 module.exports = {
 
+  configureWebpack: {
+    devtool: 'source-map'
+  },
+  
   pluginOptions: {
-    productionTip: true,
-    performance: true,
     quasar: {
       importStrategy: 'kebab',
       rtlSupport: false
