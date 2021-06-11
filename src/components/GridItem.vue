@@ -20,6 +20,7 @@
         <q-btn flat dense icon="mdi-close" @click="$emit('remove', item)" />
       </q-toolbar>
       <q-separator />
+      <div class="text-caption">{{ item.grid_id }}</div>
       <div class="text-caption">{{ item.id }}</div>
     </q-card>
   </div>

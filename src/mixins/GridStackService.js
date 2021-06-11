@@ -10,7 +10,7 @@ export default {
         ...mapActions("GridStack", [
             "ActionSetGridLayout", "ActionAddGridItem", "ActionRemoveGridItem", "ActionRemoveGrid"
         ]),
-        
+
         // createGridInit() {
         //     let layout = [];
         //     for (let row = 0; row < this.maxRows; row++) {
@@ -23,7 +23,7 @@ export default {
     },
     computed: {
         ...mapGetters("GridStack", [
-            "gridLayout"
+            "gridLayout", "displays"
         ]),
     },
 };
