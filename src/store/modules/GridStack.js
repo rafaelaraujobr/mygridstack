@@ -56,10 +56,7 @@ export default {
             state.gridLayout = state.gridLayout.filter(item => item.id != payload.id)
         },
         REMOVE_GRIDITEM(state, payload) {
-            console.log('remove_gridItem', payload)
-            const grid = state.gridLayout.find(item => item.id == payload.grid_id)
-            const indexGrid = state.gridLayout.indexOf(grid)
-            console.log(indexGrid)
+            const indexGrid = state.gridLayout.findIndex(item => item.id == payload.grid_id)
             state.gridLayout[indexGrid].grid = state.gridLayout[indexGrid].grid.filter(item => item.id != payload.id)
             // const itemGrid = state.gridLayout[indexGrid].grid.find(item => item.id == payload.id)
             // const indexItemGridGrid = state.gridLayout[indexGrid].grid.indexOf(itemGrid)
